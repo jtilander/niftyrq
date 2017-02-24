@@ -1,8 +1,11 @@
-FROM python:2.7-slim
+FROM alpine:3.5
+MAINTAINER Jim Tilander
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-		dos2unix \
-	&& rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache \
+		py-pip \
+		python \
+		bash \
+		curl
 
 ENV TINI_VERSION v0.13.2
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
@@ -12,8 +15,6 @@ ENV RQ_VERSION 0.7.1
 RUN pip install rq==$RQ_VERSION
 
 ADD autoexec.sh /
-RUN dos2unix /autoexec.sh
-RUN chmod a+x /autoexec.sh
 
 RUN mkdir /app
 WORKDIR /app

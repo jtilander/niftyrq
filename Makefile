@@ -5,6 +5,7 @@ IMAGENAME?=jtilander/niftyrq
 
 image:
 	docker build -t $(IMAGENAME):$(TAG) .
+	docker images $(IMAGENAME):$(TAG)
 
 push: image
 	docker push $(IMAGENAME):$(TAG) .
